@@ -36,3 +36,18 @@ LOGO = r"""
 |____/ \___/ \___/|_|\_\|_|    |_| |_|\__,_|\___|_|[/brand]
 [muted]        legal, open & public-domain ebook finder[/muted]
 """
+
+def make_console() -> Console:
+    return Console(theme=DARK_THEME, highlight=False)
+
+def show_logo(console: Console) -> None:
+    console.clear()
+    console.print(LOGO)
+    console.print(
+        Panel(
+            "[muted]Sources: Project Gutenberg  |  Standard Ebooks  |  "
+            "Open Library  |  Internet Archive[/muted]",
+            border_style="grey42",
+            expand=False,
+        )
+    )
