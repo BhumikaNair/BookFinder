@@ -141,3 +141,12 @@ def select_format(
 
 def confirm(console: Console, message: str, default: bool = True) -> bool:
     return Confirm.ask(f"[accent]{message}[/accent]", default=default)
+
+def show_error(console: Console, message: str) -> None:
+    console.print(f"[err]Error:[/err] {message}")
+
+def show_success(console: Console, message: str) -> None:
+    console.print(f"[ok]{message}[/ok]")
+
+def show_info(console: Console, message: str) -> None:
+    console.print(f"[muted]{message}[/muted]")
