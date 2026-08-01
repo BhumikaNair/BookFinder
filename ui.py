@@ -51,3 +51,21 @@ def show_logo(console: Console) -> None:
             expand=False,
         )
     )
+
+def ask_query(console: Console) -> str:
+    console.print()
+    return Prompt.ask("[accent]Search by title, author, or ISBN[/accent]").strip()
+
+def _source_style(source: str) -> str:
+    key = source.lower().replace(" ", "_")
+    return (
+        f"source.{key}"
+        if key
+        in {
+            "source.gutenberg",
+            "source.standard_ebooks",
+            "source.open_library",
+            "source.archive_org",
+        }
+        else "muted"
+    )
