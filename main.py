@@ -42,5 +42,33 @@ class BookFinderApp:
         ):
             return await self.engine.search(query)
 
+    async def _browse_and_download(self, books: List[Book]) -> None:
+        page = 1
+        page_size = self.config.results_per_page
+
+        while True:
+            page_items, total_pages = paginate(books, page, page_size)
+            ui.display_results(self.console, page_items, page, total_pages)
+            choice = ui.prompt_selection(self.console, len(page_items))
+
+            if choice == "q":
+                return
+            if choice == "n":
+                page = min(page + 1, total_pages)
+                continue
+            if choice == "p":
+                page = max(page - 1, 1)
+                continue
+            if choice.startswith("f "):
+                await self._handle_favorite(choice, page_items)
+                continue
+            if not choice.isdigit() or not (1 <= int(choice) <= len(page_items)):
+                ui.show_error(self.console, "Invalid selection.")
+                continue
+
+            book = page_items[int(choice) - 1]
+            await self._download_flow(book)
+            return
+
 if __name__ == "__main__":
     main()
