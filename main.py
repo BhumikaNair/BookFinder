@@ -70,5 +70,18 @@ class BookFinderApp:
             await self._download_flow(book)
             return
 
+    async def _handle_favorite(self, choice: str, page_items: List[Book]) -> None:
+        try:
+            idx = int(choice.split()[1])
+        except (IndexError, ValueError):
+            ui.show_error(self.console, "Usage: f <number>")
+            return
+        if not (1 <= idx <= len(page_items)):
+            ui.show_error(self.console, "Invalid favorite index.")
+            return
+        book = page_items[idx - 1]
+        self.favorites.add(book)
+        ui.show_success(self.console, f"Added '{book.title}' to favorites.")
+
 if __name__ == "__main__":
     main()
