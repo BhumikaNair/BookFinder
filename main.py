@@ -83,5 +83,16 @@ class BookFinderApp:
         self.favorites.add(book)
         ui.show_success(self.console, f"Added '{book.title}' to favorites.")
 
+    async def _download_flow(self, book: Book) -> None:
+        fmt = ui.select_format(self.console, book, self.config.preferred_formats)
+        if not fmt:
+            return
+        downloader = Downloader(self.config, self.console)
+        try:
+            path = await downloader.download(book, fmt)
+            ui.show_success(self.console, f"Saved to {path}")
+        except DownloadError as exc:
+            ui.show_error(self.console, str(exc))
+
 if __name__ == "__main__":
     main()
