@@ -33,5 +33,14 @@ class BookFinderApp:
 
         ui.show_info(self.console, "Goodbye!")
 
+    async def _search_with_spinner(self, query: str) -> List[Book]:
+        with Status(
+            f"[accent]Searching Gutenberg, Standard Ebooks, Open Library, "
+            f"and Internet Archive for '{query}'...[/accent]",
+            console=self.console,
+            spinner="dots",
+        ):
+            return await self.engine.search(query)
+
 if __name__ == "__main__":
     main()
